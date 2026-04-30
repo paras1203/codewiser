@@ -1,0 +1,8 @@
+{
+  "storage_type": "local | cloud_relational | document | local_first",
+  "engine": "IndexedDB | PostgreSQL | Firestore | expo-sqlite | …",
+  "entities": [],
+  "version": "1.0",
+  "generated_at": "{{ISO8601}}",
+  "confirmed_by_user": false
+}

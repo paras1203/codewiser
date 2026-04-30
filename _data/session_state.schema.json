@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "codewiser-session-state",
+  "title": "CodeWiser session_state (v4.2)",
+  "type": "object",
+  "required": ["session_id", "completed_phases", "blueprint_blocks", "meta_log", "confidence_map"],
+  "properties": {
+    "session_id": { "type": "string", "format": "uuid" },
+    "user_id": { "type": ["string", "null"], "format": "uuid" },
+    "completed_phases": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Phase module ids completed in order"
+    },
+    "blueprint_blocks": {
+      "type": "object",
+      "description": "Accumulated PRD blocks keyed per ship/the_blueprint"
+    },
+    "complexity_level": {
+      "type": "string",
+      "enum": ["minimal", "simple", "medium", "complex"]
+    },
+    "reference_app": { "type": ["string", "null"] },
+    "locale_context": {
+      "type": ["string", "null"],
+      "enum": ["IN", "SEA", "AF", "LATAM", "US", "EU", null]
+    },
+    "storage_strategy": {
+      "type": "string",
+      "description": "Where app data lives: local_only | cloud_relational | cloud_document | local_first_sync_later. Set in infrastructure/the_constraints; drives schema_capture and Pre-Export Gate 3.",
+      "enum": [
+        "local_only",
+        "cloud_relational",
+        "cloud_document",
+        "local_first_sync_later"
+      ]
+    },
+    "meta_log": {
+      "type": "object",
+      "required": ["contradiction_resolutions"],
+      "properties": {
+        "phases_activated": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "contradiction_resolutions": {
+          "type": "array",
+          "description": "Append-only audit entries when a contradiction clears; never delete (mirrors export _META.json)",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "confidence_map": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "value": {},
+          "source": {
+            "type": "string",
+            "enum": ["user", "inferred", "ai_default"]
+          },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      }
+    },
+    "contradiction_flags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "description": "Open flags; length bounded by contradiction_rules.max_open_contradiction_flags"
+    },
+    "fatigue_signals": { "type": "integer", "minimum": 0 },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}

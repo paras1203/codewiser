@@ -1,0 +1,4 @@
+-- CodeWiser bundle — SCHEMA.sql
+-- Emit only when storage_strategy == cloud_relational.
+
+-- {{DDL_BODY}}

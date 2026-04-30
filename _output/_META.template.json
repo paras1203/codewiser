@@ -1,0 +1,15 @@
+{
+  "session_id": "{{uuid}}",
+  "generated_at": "{{ISO8601}}",
+  "complexity_level": "{{minimal|simple|medium|complex}}",
+  "reference_app": null,
+  "locale_context": null,
+  "storage_strategy": "{{strategy}}",
+  "skipped_files": [],
+  "skip_reasons": {},
+  "confidence_map_snapshot": {},
+  "defaults_applied": [],
+  "delegations_logged": [],
+  "phases_completed": [],
+  "contradiction_resolutions": []
+}

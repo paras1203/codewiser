@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "CodeWiser contradiction rules (v4.2). contradiction_checker evaluates cross_field_rules after synthesis. resolution_policy MUST be one of resolution_policies[]. Expanded catalog (not a minimal stub).",
+  "version": "4.2.0",
+  "max_open_contradiction_flags": 2,
+  "resolution_policies": [
+    "user_choice",
+    "ai_proposal_reversible",
+    "defer_to_blueprint",
+    "escalate_shadow_critic",
+    "ask_clarification"
+  ],
+  "behavior": {
+    "open_flags_equals_1": "resolution_exchange_at_start_of_next_phase_no_halt",
+    "open_flags_equals_2": "full_halt_both_contradictions_single_exchange",
+    "delegation_fallback": "two_dismissals_at_open_2_propose_ai_defaults_reversible_clear_flags",
+    "clear_conditions": ["user_explicit_confirm", "ai_default_reversible"],
+    "archive_to": "meta_log.contradiction_resolutions_append_only"
+  },
+  "cross_field_rules": [
+    {
+      "conflict_type": "storage_vs_multiuser",
+      "field_a": "constraints.storage_strategy",
+      "field_b": "personas.user_count_type",
+      "condition": "field_a == 'local_only' AND field_b == 'multi_user'",
+      "resolution_policy": "ask_clarification",
+      "user_message": "Local-only storage keeps each user's data on their own device — other users typically cannot see shared data. You indicated multiple users. Should we switch to cloud storage, keep separate per-device data, or use local-first with sync later?"
+    },
+    {
+      "conflict_type": "storage_vs_collaboration",
+      "field_a": "constraints.storage_strategy",
+      "field_b": "features.real_time_collaboration",
+      "condition": "field_a == 'local_only' AND field_b == true",
+      "resolution_policy": "ask_clarification",
+      "user_message": "Real-time collaboration usually needs a shared backend. Local-only stores data on one device. Should we move to cloud or narrow the collaboration feature?"
+    },
+    {
+      "conflict_type": "budget_vs_heavy_feature",
+      "field_a": "constraints.budget_bucket",
+      "field_b": "features.real_time_video",
+      "condition": "field_a == '$0_free_stack' AND field_b == true",
+      "resolution_policy": "ask_clarification",
+      "user_message": "A $0 stack rarely covers production real-time video (infra cost). Should we shrink the feature, raise budget, or defer video to a later tier?"
+    },
+    {
+      "conflict_type": "single_user_vs_auth",
+      "field_a": "personas.user_count_type",
+      "field_b": "auth.auth_required",
+      "condition": "field_a == 'single_user' AND field_b == true",
+      "resolution_policy": "user_choice",
+      "user_message": "Single-user app: do you still want login (e.g. for future multi-device sync), or run without accounts on-device only?"
+    },
+    {
+      "conflict_type": "free_stack_vs_paid_integration",
+      "field_a": "constraints.budget_bucket",
+      "field_b": "integrations.requires_paid_vendor",
+      "condition": "field_a == '$0_free_stack' AND field_b == true",
+      "resolution_policy": "defer_to_blueprint",
+      "user_message": "A listed integration needs a paid vendor while budget is $0. Defer that integration to v1.1 / Future in the blueprint unless you increase budget."
+    },
+    {
+      "conflict_type": "offline_vs_cloud_only",
+      "field_a": "constraints.offline_required",
+      "field_b": "constraints.storage_strategy",
+      "condition": "field_a == true AND field_b == 'cloud_relational'",
+      "resolution_policy": "ai_proposal_reversible",
+      "user_message": "Offline-first with cloud-only storage conflicts. I recommend local-first with sync later or local cache + cloud — reversible default unless you object."
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Per-phase required fields and confidence thresholds. Keys match phase_library module paths. Implementers map fields to blueprint_blocks + confidence_map (dotted paths allowed).",
+  "version": "4.2.0",
+  "phases": {
+    "foundation/the_big_idea": {
+      "required_fields": ["elevator_pitch", "primary_outcome"],
+      "thresholds": {
+        "elevator_pitch": 0.75,
+        "primary_outcome": 0.7
+      },
+      "is_hard_gate": false
+    },
+    "foundation/the_landscape": {
+      "required_fields": ["differentiation_hypothesis"],
+      "thresholds": {
+        "differentiation_hypothesis": 0.6
+      },
+      "is_hard_gate": false,
+      "note": "Distilled from workaround_map / better_than_X / reference_classifier synthesis"
+    },
+    "foundation/the_positioning": {
+      "required_fields": ["value_narrative"],
+      "thresholds": {
+        "value_narrative": 0.65
+      },
+      "is_hard_gate": false,
+      "note": "Merged from pain_precision + frequency_select + emotional_color"
+    },
+    "foundation/the_people": {
+      "required_fields": ["user_count_type", "roles"],
+      "thresholds": {
+        "user_count_type": 0.8,
+        "roles": 0.75
+      },
+      "is_hard_gate": false
+    },
+    "journeys/the_main_event": {
+      "required_fields": ["core_journey_summary"],
+      "thresholds": {
+        "core_journey_summary": 0.7
+      },
+      "is_hard_gate": false,
+      "note": "Primary happy-path journey for main persona"
+    },
+    "screens/the_screen_map": {
+      "required_fields": ["screens_index"],
+      "thresholds": {
+        "screens_index": 0.7
+      },
+      "is_hard_gate": false,
+      "note": "Screen list / routes MVP; shape varies by product"
+    },
+    "infrastructure/the_constraints": {
+      "required_fields": ["budget_bucket", "storage_strategy"],
+      "thresholds": {
+        "budget_bucket": 0.7,
+        "storage_strategy": 0.7
+      },
+      "is_hard_gate": false,
+      "note": "storage_strategy gates schema_capture branch and Gate 3"
+    },
+    "design/look_and_feel": {
+      "required_fields": ["color_mood", "font_feel", "density"],
+      "thresholds": {
+        "color_mood": 0.7,
+        "font_feel": 0.7,
+        "density": 0.7
+      },
+      "optional_fields": ["reference_ui"],
+      "optional_thresholds": {
+        "reference_ui": 0
+      },
+      "skip_when_platform_access_in": ["api_only", "backend_only"],
+      "is_hard_gate": false,
+      "note": "Skip entire block when product has no UI surfaces (API/backend-only)"
+    },
+    "data/schema_capture": {
+      "required_fields": ["entities", "relationships", "primary_keys"],
+      "thresholds": {
+        "entities": 0.9,
+        "relationships": 0.85,
+        "primary_keys": 0.95
+      },
+      "is_hard_gate": true,
+      "hard_gate_blocks": ["IMPLEMENTATION_PLAN.md"],
+      "note": "User-confirmed SCHEMA.sql or DATA_MODEL + SCHEMA.json before implementation plan export"
+    },
+    "ship/feature_tiering": {
+      "required_fields": ["feature_items", "feature_dependency_map"],
+      "thresholds": {
+        "feature_items": 0.75,
+        "feature_dependency_map": 0.65
+      },
+      "is_hard_gate": false,
+      "note": "dependency_map populated after one AI-inferred + user-confirmed exchange"
+    },
+    "ship/the_blueprint": {
+      "required_fields": ["blueprint_compiled"],
+      "thresholds": {
+        "blueprint_compiled": 0.7
+      },
+      "is_hard_gate": false,
+      "note": "User approval of compiled blueprint summary before codegen (MASTER_ENGINE §1.1)"
+    },
+    "ship/success_metrics_and_horizon": {
+      "activation": "medium_and_above_only",
+      "skip_for": ["minimal", "simple"],
+      "required_fields": ["north_star_metric", "month_1_target"],
+      "thresholds": {
+        "north_star_metric": 0.6,
+        "month_1_target": 0.5
+      },
+      "is_hard_gate": false
+    }
+  }
+}

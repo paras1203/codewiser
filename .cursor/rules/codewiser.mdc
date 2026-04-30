@@ -1,0 +1,20 @@
+---
+description: Activate CodeWiser v4.1 specification engine when the user intends to define or ship an app, site, or web app.
+alwaysApply: false
+---
+
+# CodeWiser engine trigger
+
+When the user asks to **build**, **design**, **spec**, **scope**, **discover**, or **plan** an **app**, **website**, **webapp**, **SaaS**, **dashboard**, **marketplace**, or similar product (including “vibe code” prep), **do not jump to implementation code first**.
+
+## Required behavior
+
+1. Treat the task as running the **CodeWiser** engine: follow `README.md`, `MASTER_ENGINE.md`, `_engine/*`, and `phase_library/*` in this workspace.
+2. Classify **reference level** and **complexity** early; select phases per `_engine/phase_activation_matrix.md`.
+3. Observe **anti-overwhelm** (≤4–5 questions per turn unless explicit bulk delegation), **micro-education** before jargon, **default proposer** on uncertainty, **delegation detector** on deferral phrases.
+4. Synthesize after each phase cluster; detect contradictions; log defaults in `_meta` when compiling the blueprint.
+5. Emit or iterate toward the structured **Blueprint** shape in `phase_library/ship/the_blueprint/output_template.md`. **No production code** until the user **approves** the blueprint summary.
+
+## Output
+
+Prefer structured sections matching `blueprint_blocks` keys. When the user only needs a thin slice (e.g. “just the data model”), still anchor answers in blueprint blocks and skip inactive phases explicitly.
