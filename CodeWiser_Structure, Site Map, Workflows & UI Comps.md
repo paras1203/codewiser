@@ -62,3 +62,7 @@ N/A until a dedicated IDE UI consumes the engine spec.
 ## [2026-04-30 — supplemental 5] Prompt 5 — Question UI spec
 
 **Confirmed:** **`_ui/question_ui_spec.md`** (+ **`v4.2_architecture.plan.md`** §8 Positions **8a** / **8b**, **`question-ui-spec`** todo + **`file_output`**).
+
+## [2026-04-30 — Prompt 0] Pre-build housekeeping
+
+**Confirmed:** **`package.json`** name **`codewiser`**; **`engine/`** removed (canonical **`MASTER_ENGINE.md`** at repo root only); **`pnpm-workspace.yaml`** removed (**`pnpm.ignoredBuiltDependencies`** in **`package.json`**); root **`.env.local`** placeholders; **`.gitignore`** explicit **`.next/`**, **`node_modules/`**, **`.env.local`**, **`.env*.local`**; **`next.config.ts`** **`serverExternalPackages: ['jszip']`** + **`turbopack.root`** for correct resolution when parent dirs have other lockfiles.
